@@ -1,29 +1,30 @@
 import { Outlet } from "react-router-dom"
 import logo from "../../assets/argentBankLogo.png"
-import imgBankTree from "../../assets/bank-tree.jpeg"
 import "./index.css"
 import { useLocation } from "react-router-dom"
 
 export default function Layout() {
   const location = useLocation()
   return (
-    <div>
+    <div className="main-container">
       <nav className="main-nav">
         <a className="main-nav-logo" href="/">
           <img
             className="main-nav-logo-image"
-            src={location.pathname === "/" ? logo : imgBankTree}
-            alt={location.pathname === "/" ? "Argent Bank Logo" : imgBankTree}
+            src={logo}
+            alt="ArgentBank Logo"
           />
           <h1 className="sr-only">Argent Bank</h1>
         </a>
         <div>
-          <a className="main-nav-item" href="/sign-in">
+          <a className="main-nav-item" href="/login">
             <i className="fa fa-user-circle"></i>
-            {location.pathname === "/" ? "Sign In" : "Tony"}
+            {location.pathname === "/" || location.pathname === "/login"
+              ? " Sign In"
+              : " Tony"}
           </a>
 
-          {location.pathname !== "/" && (
+          {location.pathname !== "/" && location.pathname !== "/login" && (
             <a className="main-nav-item" href="/">
               <i className="fa fa-sign-out"></i>
               Sign Out

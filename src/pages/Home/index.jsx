@@ -1,13 +1,19 @@
 import chatIcon from "../../assets/icon-chat.png"
 import moneyIcon from "../../assets/icon-money.png"
 import securityIcon from "../../assets/icon-security.png"
+import imgBankTree from "../../assets/bank-tree.jpeg"
 import "./index.css"
 import IconInfo from "../../components/IconInfo"
 
 function Home() {
   return (
     <main>
-      <div className="hero">
+      <div
+        className="hero"
+        style={{
+          backgroundImage: `url(${imgBankTree})`,
+        }}
+      >
         <section className="hero-content">
           <h2 className="sr-only">Promoted Content</h2>
           <p className="subtitle">No fees.</p>
