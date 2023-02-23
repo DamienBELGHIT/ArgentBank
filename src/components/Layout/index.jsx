@@ -1,10 +1,14 @@
 import { Outlet } from "react-router-dom"
 import logo from "../../assets/argentBankLogo.png"
-import "./index.css"
 import { useLocation } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import "./index.css"
+import * as loginActions from "../../features/login"
 
 export default function Layout() {
+  const dispatch = useDispatch()
   const location = useLocation()
+
   return (
     <div className="main-container">
       <nav className="main-nav">
@@ -25,7 +29,11 @@ export default function Layout() {
           </a>
 
           {location.pathname !== "/" && location.pathname !== "/login" && (
-            <a className="main-nav-item" href="/">
+            <a
+              className="main-nav-item"
+              onClick={() => dispatch(loginActions.logout())}
+              href="/"
+            >
               <i className="fa fa-sign-out"></i>
               Sign Out
             </a>

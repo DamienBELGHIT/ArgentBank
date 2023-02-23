@@ -4,19 +4,23 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
 import Home from "./pages/Home"
 import Profile from "./pages/Profile"
-import SignIn from "./pages/SignIn"
+import Login from "./pages/Login"
+import { Provider } from "react-redux"
+import store from "./utils/store"
 import "./main.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index path="/" element={<Home />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </Router>
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Router>
+    </React.StrictMode>
+  </Provider>
 )
