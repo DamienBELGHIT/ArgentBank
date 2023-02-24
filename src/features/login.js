@@ -1,6 +1,8 @@
 import { selectLogin } from "../utils/selectors"
 import { createSlice } from "@reduxjs/toolkit"
 
+import * as profileActions from "./profile"
+
 const initialState = {
   status: "void",
   token: null,
@@ -73,9 +75,11 @@ const { actions, reducer } = createSlice({
       },
     },
 
-    logout: () => initialState,
+    resetLogin: () => {
+      return initialState
+    },
   },
 })
 
-export const { logout } = actions
+export const { resetLogin } = actions
 export default reducer

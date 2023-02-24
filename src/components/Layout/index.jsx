@@ -1,20 +1,20 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import logo from "../../assets/argentBankLogo.png"
-import { useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import { selectLogin, selectProfile } from "../../utils/selectors"
+import { logout } from "../../features/logout"
 import "./index.css"
-import * as loginActions from "../../features/login"
-import { selectProfile } from "../../utils/selectors"
 
 export default function Layout() {
   const dispatch = useDispatch()
-  const location = useLocation()
-  const profileResult = useSelector(selectProfile)
+  const profileData = useSelector(selectProfile)
+  const loginData = useSelector(selectLogin)
+  const navigate = useNavigate()
 
   return (
     <div className="main-container">
       <nav className="main-nav">
-        <a className="main-nav-logo" href="/">
+        <a className="main-nav-logo" onClick={() => navigate("/")}>
           <img
             className="main-nav-logo-image"
             src={logo}
@@ -22,21 +22,32 @@ export default function Layout() {
           />
           <h1 className="sr-only">Argent Bank</h1>
         </a>
-        <div>
-          <a className="main-nav-item" href="/login">
-            <i className="fa fa-user-circle"></i>
-            {location.pathname === "/" || location.pathname === "/login"
-              ? " Sign In"
-              : profileResult.data.body.firstName}
-          </a>
-
-          {location.pathname !== "/" && location.pathname !== "/login" && (
-            <a className="main-nav-item" href="/">
+        {loginData.status === "resolved" &&
+        profileData.status === "resolved" ? (
+          <div>
+            <a className="main-nav-item" onClick={() => navigate("/profile")}>
+              <i className="fa fa-user-circle"></i>
+              {profileData.data.body.firstName}
+            </a>
+            <a
+              className="main-nav-item"
+              onClick={() => {
+                dispatch(logout())
+                navigate("/")
+              }}
+            >
               <i className="fa fa-sign-out"></i>
               Sign Out
             </a>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div>
+            <a className="main-nav-item" onClick={() => navigate("/login")}>
+              <i className="fa fa-user-circle"></i>
+              Sign in
+            </a>
+          </div>
+        )}
       </nav>
       <Outlet />
       <footer className="footer">

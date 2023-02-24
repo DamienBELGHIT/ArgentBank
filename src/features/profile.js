@@ -74,7 +74,13 @@ const { actions, reducer } = createSlice({
         }
       },
     },
+
+    resetProfile: () => {
+      console.log("profile reset")
+      return initialState
+    },
   },
 })
 
+export const { resetProfile } = actions
 export default reducer
