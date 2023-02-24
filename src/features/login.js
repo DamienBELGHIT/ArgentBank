@@ -1,7 +1,6 @@
 import { selectLogin } from "../utils/selectors"
 import { createSlice } from "@reduxjs/toolkit"
-
-import * as profileActions from "./profile"
+import { server } from "../utils/server"
 
 const initialState = {
   status: "void",
@@ -15,7 +14,7 @@ export function fetchLogin(credentials) {
     const login = selectLogin(getState())
     dispatch(actions.fetching())
     try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+      const response = await fetch(`${server}api/v1/user/login`, {
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -1,6 +1,7 @@
 import "./index.css"
 import Account from "../../components/Account"
 import Loader from "../../components/Loader"
+import NameEditForm from "../../components/NameEditForm"
 import { selectLogin, selectProfile } from "../../utils/selectors"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
@@ -10,7 +11,6 @@ function Profile() {
   const dispatch = useDispatch()
   const profile = useSelector(selectProfile)
   const { token } = useSelector(selectLogin)
-  let profileData
 
   const isLoading =
     profile.status === "void" ||
@@ -23,8 +23,6 @@ function Profile() {
 
   if (profile.status === "rejected") {
     return <span>{profile.error.toString()}</span>
-  } else if (profile.status === "resolved") {
-    profileData = profile.data.body
   }
 
   return (
@@ -33,14 +31,7 @@ function Profile() {
         <Loader />
       ) : (
         <div>
-          <div className="header">
-            <h1>
-              Welcome back
-              <br />
-              {profileData.firstName + " " + profileData.lastName} !
-            </h1>
-            <button className="edit-button">Edit Name</button>
-          </div>
+          <NameEditForm />
           <h2 className="sr-only">Accounts</h2>
           <Account
             title="Argent Bank Checking (x8349)"

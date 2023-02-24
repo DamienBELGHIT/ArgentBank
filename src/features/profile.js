@@ -1,5 +1,6 @@
 import { selectProfile } from "../utils/selectors"
 import { createSlice } from "@reduxjs/toolkit"
+import { server } from "../utils/server"
 
 const initialState = {
   status: "void",
@@ -14,17 +15,14 @@ export function fetchProfile(token) {
     if (profile.status === "void") {
       dispatch(actions.fetching())
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/user/profile",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        const response = await fetch(`${server}api/v1/user/profile`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
         if (!response.ok) {
           throw new Error(`status code ${response.status}`)
         }
@@ -33,6 +31,34 @@ export function fetchProfile(token) {
       } catch (error) {
         dispatch(actions.rejected(error.toString()))
       }
+    }
+  }
+}
+
+export function updateNameProfile(token, newName) {
+  //thunk
+  return async (dispatch, getState) => {
+    dispatch(actions.fetching())
+    try {
+      const response = await fetch(`${server}api/v1/user/profile`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          firstName: newName.firstname,
+          lastName: newName.lastname,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`status code ${response.status}`)
+      }
+      const data = await response.json()
+      dispatch(actions.resolved(data))
+    } catch (error) {
+      dispatch(actions.rejected(error.toString()))
     }
   }
 }
@@ -76,7 +102,6 @@ const { actions, reducer } = createSlice({
     },
 
     resetProfile: () => {
-      console.log("profile reset")
       return initialState
     },
   },
